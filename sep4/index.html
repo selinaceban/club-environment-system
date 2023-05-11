@@ -1,0 +1,74 @@
+<!--A website that has some titles saying tempprature, then gets the temprature value from json file, maybe use bootstrap to make it look ok-->
+<!--The json file is updated every 5 minutes, so the website should be updated every 5 minutes-->
+<!--The json file is located at /home/pi/temperature.json-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Temperature</title>
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="300">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--CDN Of Jquery and bootstrap-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--Javascript-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--CSS-->
+    <style>
+        body {
+            background-color: #f2f2f2;
+        }
+        h1,h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Temperature</h1>
+    <h2 id="temperature"></h2>
+    <!--Use Javascript to get the values from the json file. This is how it looks:
+    {
+"tempReading":{
+"readingNumber": 1, 
+"temperature":20
+}
+}-->
+    <script>
+        $(document).ready(function(){
+            $.getJSON("temperature.json", function(result){
+                $.each(result, function(i, field){
+                    let temperature = field.temperature;
+                    let readingId = field.readingNumber;    
+                    $("#temperature").append("ID: " + readingId + "<br>");
+                    $("#temperature").append("Temperature Value: " + temperature + "<br>");
+                    console.log(field);
+                });
+            });
+        });
+    </script>
+    <!--now the same thing but for CO2 readinds-->
+    <h1>CO2</h1>
+    <script>
+        $(document).ready(function(){
+            $.getJSON("co2.json", function(result){
+                $.each(result, function(i, field){
+                    $("#co2").append(field + " ");
+                });
+            });
+        });
+    </script>
+    <!--now the same thing but for humidity readinds-->
+    <h1>Humidity</h1>
+    <script>
+        $(document).ready(function(){
+            $.getJSON("humidity.json", function(result){
+                $.each(result, function(i, field){
+                    $("#humidity").append(field + " ");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
